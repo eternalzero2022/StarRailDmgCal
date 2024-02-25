@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            margin: 0 auto;
+            border: 2px solid;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        table th,
+        table td {
+            border: 1px dotted;
+            padding: 5px;
+        }
+
+        table th {
+            width: 100px;
+        }
+
+        table td {
+            width: 92px;
+            text-align: left;
+        }
+
+        .write {
+            width: 70px;
+            text-align: center;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        ul {
+            margin: 0px;
+            padding-left: 20px;
+
+        }
+
+        .button {
+            display: block;
+            margin: 30px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 style="text-align: center;">星穹铁道伤害计算</h2>
+    <table>
+        <tr>
+            <th>基础攻击力</th>
+            <td><input type="text" class="write" id="atk" value="0"></td>
+        </tr>
+        <tr>
+            <th>攻击倍率</th>
+            <td><input type="text" class="write" id="dmg" value="0">%</td>
+        </tr>
+        <tr>
+            <th>暴击伤害</th>
+            <td><input type="text" class="write" id="crit" value="0">%</td>
+        </tr>
+        <tr>
+            <th>元素伤害提高</th>
+            <td><input type="text" class="write" id="dmgboost1" value="0">%</td>
+        </tr>
+        <tr>
+            <th>一般伤害提高</th>
+            <td><input type="text" class="write" id="dmgboost2" value="0">%</td>
+        </tr>
+        <tr>
+            <th>角色等级</th>
+            <td><input type="text" class="write" id="lv" value="0"></td>
+        </tr>
+        <tr>
+            <th>敌方等级</th>
+            <td><input type="text" class="write" id="enemylv" value="0"></td>
+        </tr>
+        <tr>
+            <th>是否为扑满</th>
+            <td><input type="checkbox" name="isPuMan" id="isPuMan"></td>
+        </tr>
+        <tr>
+            <th>敌方对该元素情况</th>
+            <td>
+                <ul>
+                    <li>正常<input type="radio" name="element" id="" value="0.8" checked></li>
+                    <li>弱点<input type="radio" name="element" id="" value="1"></li>
+                    <li>抗性<input type="radio" name="element" id="" value="0.6"></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>敌方元素抗性降低</th>
+            <td><input type="text" class="write" id="eledefdec" value="0">%</td>
+        </tr>
+        <tr>
+            <th>是否弱点击破</th>
+            <td><input type="checkbox" id="breaks"></td>
+        </tr>
+        <tr>
+            <th>敌方防御降低</th>
+            <td><input type="text" class="write" id="enemydefdec" value="0">%</td>
+        </tr>
+        <tr>
+            <th>无视防御</th>
+            <td><input type="text" class="write" id="wushi" value="0">%</td>
+        </tr>
+        <tr>
+            <th>敌方受到伤害降低</th>
+            <td><input type="text" class="write" id="dmgreducetmp" value="0">%</td>
+        </tr>
+        <tr>
+            <th>敌方受到伤害提高</th>
+            <td><input type="text" class="write" id="takedmgincrease" value="0">%</td>
+        </tr>
+        <tr>
+            <th>我方造成伤害降低</th>
+            <td><input type="text" class="write" id="atkdec" value="0">%</td>
+        </tr>
+    </table>
+    <input class="button" type="button" onclick="cal()" value="计算结果">
+    <h3 style="text-align: center;">最终伤害为：<span id="result">0</span></h3>
+
+    <script>
+        function cal() {
+            let atk = +document.getElementById("atk").value
+            let dmg = +document.getElementById("dmg").value
+            dmg = dmg / 100
+            let crit = +document.getElementById("crit").value
+            crit = crit / 100 + 1
+            let dmgboost = +document.getElementById("dmgboost1").value + eval(document.getElementById("dmgboost2").value)
+            dmgboost = dmgboost / 100 + 1
+            let lv = +document.getElementById("lv").value
+            let enemylv = +document.getElementById("enemylv").value
+            let isPuMan = document.getElementById("isPuMan").checked
+            let elementDef = 0
+            let buttons = document.getElementsByName("element")
+            for (let i = 0; i < buttons.length; i++) {
+                if (buttons[i].checked) {
+                    elementDef = +buttons[i].value
+                    break
+                }
+            }
+            let tmp = +document.getElementById("eledefdec").value
+            elementDef = elementDef + (tmp / 100)
+            if (elementDef > 2) {
+                elementDef = 2
+            }
+            let takedmgreduce = 0.9
+            if (document.getElementById("breaks").checked) {
+                takedmgreduce = 1
+            }
+            let dmgreducetmp = +document.getElementById("dmgreducetmp").value
+            takedmgreduce = takedmgreduce * (1 - (dmgreducetmp / 100))
+            let enemydef = 0
+            if (isPuMan)
+                enemydef = 300 + 15 * enemylv
+            else
+                enemydef = 200 + 10 * enemylv
+            let enemydefdec = +document.getElementById("enemydefdec").value
+            enemydefdec = enemydefdec / 100
+            let wushi = +document.getElementById("wushi").value
+            wushi = wushi / 100
+            enemydef = enemydef * (1 - enemydefdec - wushi)
+            if (enemydef < 0)
+                enemydef = 0
+            let defence = (200 + 10 * lv) / (enemydef + (200 + 10 * lv))
+            let takedmgincrease = +document.getElementById("takedmgincrease").value
+            takedmgincrease = takedmgincrease / 100 + 1
+            let atkdec = +document.getElementById("atkdec").value
+            atkdec = 1 - (atkdec / 100)
+            let result = atk * dmg * crit * dmgboost * defence * elementDef * takedmgreduce * takedmgincrease * atkdec
+            document.getElementById("result").innerText = parseInt(result)
+        }
+
+        let inputElement = document.getElementsByClassName("write")
+        for (let i = 0; i < inputElement.length; i++) {
+            inputElement[i].addEventListener("blur", function () {
+                let expression = inputElement[i].value
+                let res = eval(expression)
+                inputElement[i].value = res
+            })
+        }
+    </script>
+</body>
+
+</html>
