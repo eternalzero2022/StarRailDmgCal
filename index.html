@@ -51,95 +51,174 @@
         .button {
             display: block;
             margin: 30px auto;
+            margin-top: 50px;
+        }
+
+        .bord {
+            font-weight: bold;
+        }
+
+        .margin {
+            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
     <h2 style="text-align: center;">星穹铁道伤害计算</h2>
-    <table>
-        <tr>
-            <th>当前攻击力</th>
-            <td><input type="text" class="write" id="atk" value="0"></td>
-        </tr>
-        <tr>
-            <th>技能攻击倍率</th>
-            <td><input type="text" class="write" id="dmg" value="0">%</td>
-        </tr>
-        <tr>
-            <th>暴击伤害</th>
-            <td><input type="text" class="write" id="crit" value="0">%</td>
-        </tr>
-        <tr>
-            <th>元素伤害提高</th>
-            <td><input type="text" class="write" id="dmgboost1" value="0">%</td>
-        </tr>
-        <tr>
-            <th>一般伤害提高</th>
-            <td><input type="text" class="write" id="dmgboost2" value="0">%</td>
-        </tr>
-        <tr>
-            <th>角色等级</th>
-            <td><input type="text" class="write" id="lv" value="0"></td>
-        </tr>
-        <tr>
-            <th>敌方等级</th>
-            <td><input type="text" class="write" id="enemylv" value="0"></td>
-        </tr>
-        <tr>
-            <th>是否为扑满</th>
-            <td><input type="checkbox" name="isPuMan" id="isPuMan"></td>
-        </tr>
-        <tr>
-            <th>敌方对该元素情况</th>
-            <td>
+    <div style="display: flex;justify-content: center;">
+        <div style="display: flex;justify-content: center;position: relative;">
+            <table>
+                <tr>
+                    <th>当前攻击力</th>
+                    <td><input type="text" class="write" id="atk" value="0"></td>
+                </tr>
+                <tr>
+                    <th>技能攻击倍率</th>
+                    <td><input type="text" class="write" id="dmg" value="0">%</td>
+                </tr>
+                <tr>
+                    <th>暴击伤害</th>
+                    <td><input type="text" class="write" id="crit" value="0">%</td>
+                </tr>
+                <tr>
+                    <th>元素伤害提高</th>
+                    <td><input type="text" class="write" id="dmgboost1" value="0">%</td>
+                </tr>
+                <tr>
+                    <th>一般伤害提高</th>
+                    <td><input type="text" class="write" id="dmgboost2" value="0">%</td>
+                </tr>
+                <tr>
+                    <th>角色等级</th>
+                    <td><input type="text" class="write" id="lv" value="0"></td>
+                </tr>
+                <tr>
+                    <th>敌方等级</th>
+                    <td><input type="text" class="write" id="enemylv" value="0"></td>
+                </tr>
+                <tr>
+                    <th>是否为扑满</th>
+                    <td><input type="checkbox" name="isPuMan" id="isPuMan"></td>
+                </tr>
+                <tr>
+                    <th>敌方对该元素情况</th>
+                    <td>
+                        <ul>
+                            <li>正常<input type="radio" name="element" id="" value="0.8" checked></li>
+                            <li>弱点<input type="radio" name="element" id="" value="1"></li>
+                            <li>抗性<input type="radio" name="element" id="" value="0.6"></li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>敌方元素抗性降低</th>
+                    <td><input type="text" class="write" id="eledefdec" value="0">%</td>
+                </tr>
+                <tr>
+                    <th>是否弱点击破</th>
+                    <td><input type="checkbox" id="breaks"></td>
+                </tr>
+                <tr>
+                    <th>敌方防御降低</th>
+                    <td><input type="text" class="write" id="enemydefdec" value="0">%</td>
+                </tr>
+                <tr>
+                    <th>无视防御</th>
+                    <td><input type="text" class="write" id="wushi" value="0">%</td>
+                </tr>
+                <tr>
+                    <th>敌方受到伤害降低</th>
+                    <td><input type="text" class="write" id="dmgreducetmp" value="0">%</td>
+                </tr>
+                <tr>
+                    <th>敌方受到伤害提高</th>
+                    <td><input type="text" class="write" id="takedmgincrease" value="0">%</td>
+                </tr>
+                <tr>
+                    <th>我方造成伤害降低</th>
+                    <td><input type="text" class="write" id="atkdec" value="0">%</td>
+                </tr>
+            </table>
+            <div style="position: absolute;left: 250px;top: 10px;width: 100%;">
+                <h3>
+                    使用辅助：
+                </h3>
                 <ul>
-                    <li>正常<input type="radio" name="element" id="" value="0.8" checked></li>
-                    <li>弱点<input type="radio" name="element" id="" value="1"></li>
-                    <li>抗性<input type="radio" name="element" id="" value="0.6"></li>
+                    <li class="margin">
+                        <input type="checkbox" name="useRuanMei" id="useRuanMei"><span class="bord">阮·梅</span>
+                    </li>
+                    <li class="margin">
+                        <input type="checkbox" name="useSparkle" id="useSparkle"><span class="bord">花火</span>
+                    </li>
+                    <li class="margin">
+                        <input type="checkbox" name="useRobin" id="useRobin"><span class="bord">知更鸟</span>
+                    </li>
                 </ul>
-            </td>
-        </tr>
-        <tr>
-            <th>敌方元素抗性降低</th>
-            <td><input type="text" class="write" id="eledefdec" value="0">%</td>
-        </tr>
-        <tr>
-            <th>是否弱点击破</th>
-            <td><input type="checkbox" id="breaks"></td>
-        </tr>
-        <tr>
-            <th>敌方防御降低</th>
-            <td><input type="text" class="write" id="enemydefdec" value="0">%</td>
-        </tr>
-        <tr>
-            <th>无视防御</th>
-            <td><input type="text" class="write" id="wushi" value="0">%</td>
-        </tr>
-        <tr>
-            <th>敌方受到伤害降低</th>
-            <td><input type="text" class="write" id="dmgreducetmp" value="0">%</td>
-        </tr>
-        <tr>
-            <th>敌方受到伤害提高</th>
-            <td><input type="text" class="write" id="takedmgincrease" value="0">%</td>
-        </tr>
-        <tr>
-            <th>我方造成伤害降低</th>
-            <td><input type="text" class="write" id="atkdec" value="0">%</td>
-        </tr>
-    </table>
-    <input class="button" type="button" onclick="cal()" value="计算结果">
-    <h3 style="text-align: center;">最终伤害为：<span id="result">0</span></h3>
+                <h4>
+                    辅助全满魂<input type="checkbox" name="full" id="full">
+                </h4>
+                <h4>
+                    不吃攻击力加成<input type="checkbox" name="notuseatk" id="notuseatk">
+                </h4>
+                <h4>
+                    机制契合<input type="checkbox" name="right" id="right">
+                </h4>
+                <span>"机制契合"即能够获得辅助针对某些角色额外伤害加成，例如花火对量子队的额外攻击加成、知更鸟对追加攻击的爆伤加成等</span>
+                <input class="button" type="button" onclick="cal()" value="计算结果">
+                <h3 style="text-align: center;">最终伤害为：<span id="result">0</span></h3>
+            </div>
+        </div>
+
+    </div>
+
+
 
     <script>
         function cal() {
+            let full = document.getElementById("full").checked
+            let right = document.getElementById("right").checked
+            let notuseatk = document.getElementById("notuseatk").checked
+            let useRuanMei = document.getElementById("useRuanMei").checked
+            let useSparkle = document.getElementById("useSparkle").checked
+            let useRobin = document.getElementById("useRobin").checked
             let atk = +document.getElementById("atk").value
+            if (useSparkle && !notuseatk) {
+                atk += 190.5
+                if (right) {//花火在量子队中
+                    atk += 381
+                }
+                if (full) {
+                    atk += 508
+                }
+            }
+            if (useRobin && !notuseatk) {
+                atk += (full ? 1622 : 1365)
+            }
             let dmg = +document.getElementById("dmg").value
             dmg = dmg / 100
             let crit = +document.getElementById("crit").value
+            if (useSparkle) {
+                crit += full ? 261 : 133
+            }
+            if (useRobin) {
+                crit += 20
+                if (right) {
+                    crit += 25
+                }
+            }
             crit = crit / 100 + 1
             let dmgboost = +document.getElementById("dmgboost1").value + eval(document.getElementById("dmgboost2").value)
+            if (useRuanMei) {
+                dmgboost += (full ? 111.2 : 92)
+            }
+            if (useSparkle) {
+                dmgboost += (full ? 52.2 : 48)
+            }
+            if (useRobin) {
+                dmgboost += (full ? 95 : 74)
+            }
+
             dmgboost = dmgboost / 100 + 1
             let lv = +document.getElementById("lv").value
             let enemylv = +document.getElementById("enemylv").value
@@ -153,6 +232,13 @@
                 }
             }
             let tmp = +document.getElementById("eledefdec").value
+            if (useRuanMei) {
+                tmp += (full ? 27 : 25)
+            }
+            if (useRobin && full) {
+                tmp += 24
+            }
+
             elementDef = elementDef + (tmp / 100)
             if (elementDef > 2) {
                 elementDef = 2
@@ -160,6 +246,9 @@
             let takedmgreduce = 0.9
             if (document.getElementById("breaks").checked) {
                 takedmgreduce = 1
+                if (useRuanMei && full && !notuseatk) {
+                    atk += (508)
+                }
             }
             let dmgreducetmp = +document.getElementById("dmgreducetmp").value
             takedmgreduce = takedmgreduce * (1 - (dmgreducetmp / 100))
@@ -171,6 +260,12 @@
             let enemydefdec = +document.getElementById("enemydefdec").value
             enemydefdec = enemydefdec / 100
             let wushi = +document.getElementById("wushi").value
+            if (useRuanMei && full) {
+                wushi += 20
+            }
+            if (useSparkle && full) {
+                wushi += 24
+            }
             wushi = wushi / 100
             enemydef = enemydef * (1 - enemydefdec - wushi)
             if (enemydef < 0)
@@ -181,6 +276,16 @@
             let atkdec = +document.getElementById("atkdec").value
             atkdec = 1 - (atkdec / 100)
             let result = atk * dmg * crit * dmgboost * defence * elementDef * takedmgreduce * takedmgincrease * atkdec
+            if (useRobin) {
+                let origindmgboost = +document.getElementById("dmgboost1").value + eval(document.getElementById("dmgboost2").value)
+                origindmgboost = origindmgboost / 100
+                if (full) {
+                    result += 7346 * 1.2 * 6 * (dmgboost - origindmgboost) * defence * elementDef * takedmgreduce * takedmgincrease * atkdec
+                } else {
+                    result += 6477 * 1.2 * 1.5 * (dmgboost - origindmgboost) * defence * elementDef * takedmgreduce * takedmgincrease * atkdec
+                }
+
+            }
             document.getElementById("result").innerText = parseInt(result)
         }
 
